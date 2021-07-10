@@ -1,0 +1,33 @@
+<snippet>
+	<content><![CDATA[
+int parent[${1:N}],size[${1:N}];
+int findParent(int i)
+{
+	if(parent[parent[i]]!=parent[i])
+		parent[i]=findParent(parent[i]);
+	return parent[i];
+}
+void unionNodes(int a,int b)
+{
+	int parent_a=findParent(a),parent_b=findParent(b);
+	if(parent_a==parent_b)
+		return;
+	if(size[parent_a]>=size[parent_b]){
+		swap(parent_a,parent_b);
+	}
+	size[parent_b]+=size[parent_a];
+	parent[parent_a]=parent_b;
+	return;
+}
+void cleardsu(int n){
+	for(int i=1;i<=n;i++){
+		parent[i]=i;
+		size[i]=1;
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dsu</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

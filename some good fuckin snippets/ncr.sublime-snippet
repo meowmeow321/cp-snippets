@@ -1,0 +1,33 @@
+<snippet>
+	<content><![CDATA[
+vector<mod_int> fact = {1, 1}, inv_fact = {1, 1};
+
+void prep_fact(int m) {
+    static int n = 1;
+    if (m <= n)
+        return;
+
+    // Prevent increasing maximum by only 1 each time.
+    m += m / 16;
+    fact.resize(m + 1);
+    inv_fact.resize(m + 1);
+    for (int i = n + 1; i <= m; i++) {
+        fact[i] = i * fact[i - 1];
+        inv_fact[i] = inv_fact[i - 1] / i;
+    }
+    n = m;
+}
+
+ 
+mod_int ncr(int64_t n, int64_t r) {
+    if (r < 0 || r > n) return 0;
+    prep_fact(n);
+    return fact[n] * inv_fact[r] * inv_fact[n - r];
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>NCR</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

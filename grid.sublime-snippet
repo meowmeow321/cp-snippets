@@ -1,0 +1,16 @@
+<snippet>
+	<content><![CDATA[
+int dx[4] = {1, -1, 0, 0};
+int dy[4] = {0, 0, 1, -1};
+
+int n_rows, n_cols; // set these
+
+bool gridcheck(int r, int c, int x, int y='*'){
+	return (r>=0 && r<n_rows && c>=0 && c<n_cols && x!=y);
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>GRID</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

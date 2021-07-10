@@ -1,0 +1,100 @@
+<snippet>
+	<content><![CDATA[
+struct node{
+	int sum, lazyval;
+	bool lazyset;
+    void assign(int val) {
+    	sum = val;
+    }
+    node operator+(const node& b) {
+    	node res;
+    	res.sum = this->sum + b.sum;
+    	res.lazyset = 0;
+	    return res;
+	}
+}zero;
+ 
+class segtree{
+    node t[4 * maxn];
+    int sz = 0;
+public:
+    //if a node has lazy tag then its info is correct but its children info
+    //is old, so pushdown() before going into children nodes
+    void pushdown(int v, int tl, int tr)
+    {
+        int ln = v * 2;
+        int rn = v * 2 + 1;
+        int tm = (tl + tr) / 2;
+        if(t[v].lazyset != 0) {
+        	apply(ln, tl, tm, t[v].lazyval);
+        	apply(rn, tm + 1, tr, t[v].lazyval);
+        	t[v].lazyset = 0;
+        }
+    }
+    
+    //apply() is an auxillary function to apply range update and set lazy tag
+    void apply(int v, int tl, int tr, int val)
+    {
+    	t[v].sum = val * (tr - tl + 1);
+    	t[v].lazyset = 1;
+    	t[v].lazyval = val;
+    }
+    
+    //build with (a,1,0,n-1)
+    void build(vector<int> &a, int v, int tl, int tr) {
+    	t[v].lazyset = 0;
+        if (tl == tr) {
+            t[v].assign(a[tl]);
+            return;
+        } else {
+            int tm = (tl + tr) / 2;
+            build(a, v * 2, tl, tm);
+            build(a, v * 2 + 1, tm + 1, tr);
+            // t[v].merge(t[v * 2], t[v * 2 + 1]);
+            t[v] = t[v * 2] + t[v * 2 + 1];
+        }
+    }
+    void build(vector<int> a) {
+    	sz = sz(a);
+    	build(a, 1, 0, sz - 1);
+    }
+ 
+    // range query with (1,0,n-1,l,r)
+    node query(int v, int tl, int tr, int l, int r) {
+        if (l > tr || r < tl)
+            return zero;
+        if (l <= tl && tr <= r) {
+            return t[v];
+        }
+        pushdown(v, tl, tr);
+        int tm = (tl + tr) / 2;
+	    return query(v * 2, tl, tm, l, r) + query(v * 2 + 1, tm + 1, tr, l, r);
+    } 
+    node query(int l, int r) {
+    	return query(1, 0, sz - 1, l, r);
+    }
+ 
+    //range update with (1,0,n-1,l,r,val)
+    void rupd(int v, int tl, int tr, int l, int r, int val) {
+        if(l > tr || r < tl)
+            return;
+        if(l <= tl && tr <= r) {
+            apply(v, tl, tr, val);
+            return;
+        }
+        pushdown(v, tl, tr);
+        int tm = (tl + tr) / 2;
+        rupd(v * 2, tl, tm, l, r, val);
+        rupd(v * 2 + 1, tm + 1, tr, l, r, val);
+        t[v] = t[v * 2] + t[v * 2 + 1];
+    }
+    void rupd(int l, int r, int val) {
+    	rupd(1, 0, sz - 1, l, r, val);
+    }
+}st;
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>SEGMENT_TREE</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

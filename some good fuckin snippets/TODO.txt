@@ -1,0 +1,7 @@
+1. Add descriptions at the top of snippets
+2. Flows (Scaled Dinic, Hopcroft Karp, MCMF, hungarian) and LPP (Simplex)
+3. NT (Fast Factorization, Tonelli Shanks, Miller Rabin, Big Int, Fractions struct, Baby Step Giant Step, Extended Euclidean, CRT)  
+4. Graphs and trees (Dijkstra, Bellman-Ford, Floyd Warshall, Centroid Decomp, HLD, LCA with Binary Lifting, Articulation Points/Bridges, SCC kosaraju, 2SAT solver, Biconnected Components)
+5. FFT, FWHT, Gaussian, Berlekamp Massey and related things
+7. Data Structures (Segtree, Fenwick (done), Sparse Table(done), DSU (with rollbacks) (done without rollback), Deletion in T(n)logn, Expandable using 2^i blocks)
+8. String (Hash struct, KMP (done), Z(done), Manacher(done), Palindromic Tree, Suffix Array + LCP, Suffix Automaton, Aho Corasick)	

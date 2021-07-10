@@ -1,0 +1,66 @@
+<snippet>
+	<content><![CDATA[
+struct Dinic {
+    const static bool SCALING = true; // non-scaling = V^2E, Scaling=VElog(U) with higher constant
+    int lim = 1;
+    const int INF = numeric_limits<int>::max();
+    struct edge {
+        int to, rev;
+        int cap, flow;
+    };
+    int s = 0, t = MAXV-1; 
+    int level[MAXV], ptr[MAXV];
+    vector<edge> adj[MAXV];
+    void addEdge(int a, int b, int cap, bool isDirected = true) {
+        adj[a].push_back({b, sz(adj[b]), cap, 0});
+        adj[b].push_back({a, sz(adj[a]) - 1, isDirected ? 0 : cap, 0});
+    }
+    bool bfs() {
+        queue<int> q({s});
+        fill(level,level+MAXV, -1);
+        level[s] = 0;
+        while (!q.empty() && level[t] == -1) {
+            int v = q.front();
+            q.pop();
+            for (auto e : adj[v]) {
+                if (level[e.to] == -1 && e.flow < e.cap && (!SCALING || e.cap - e.flow >= lim)) {
+                    q.push(e.to);
+                    level[e.to] = level[v] + 1;
+                }
+            }
+        }
+        return level[t] != -1;
+    }
+    int dfs(int v, int flow) {
+        if (v == t || !flow)
+            return flow;
+        for (; ptr[v] < adj[v].size(); ptr[v]++) {
+            edge &e = adj[v][ptr[v]];
+            if (level[e.to] != level[v] + 1)
+                continue;
+            if (int pushed = dfs(e.to, min(flow, e.cap - e.flow))) {
+                e.flow += pushed;
+                adj[e.to][e.rev].flow -= pushed;
+                return pushed;
+            }
+        }
+        return 0;
+    }
+    long long calc() {
+        long long flow = 0;
+        for (lim = SCALING ? (1ll << 30) : 1; lim > 0; lim >>= 1) {
+            while (bfs()) {
+                fill(ptr,ptr+MAXV, 0);
+                while (int pushed = dfs(s, INF))
+                    flow += pushed;
+            }
+        }
+        return flow;
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>DINIC</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

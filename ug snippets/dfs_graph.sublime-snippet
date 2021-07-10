@@ -1,0 +1,17 @@
+<snippet>
+<content><![CDATA[
+vector<int> v[${1:N}];int vis[$1];
+void dfs(int z,int p){
+	vis[z]=1;
+	for(int x:v[z]){
+		if(vis[x])continue;
+		dfs(x,z);
+	}
+}
+]]></content>
+<tabTrigger>dfs_graph</tabTrigger>
+<description>
+	dfs visit
+</description>
+<scope>source.c++</scope>
+</snippet>

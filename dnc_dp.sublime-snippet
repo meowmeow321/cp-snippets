@@ -1,0 +1,25 @@
+<snippet>
+	<content><![CDATA[
+void compute(int l, int r, int optl, int optr)
+{
+    if (l > r)
+        return;
+    int mid = (l + r) >> 1;
+    pair<int, int> best = {inf, -1};
+ 
+    for (int k = optl; k <= min(mid - 1, optr); k++) {
+        best = min(best, {dp_before[k] + C(k + 1, mid), k});
+    }
+ 
+    dp_cur[mid] = best.first;
+    int opt = best.second;
+ 
+    compute(l, mid - 1, optl, opt);
+    compute(mid + 1, r, opt, optr);
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>DNC_DP</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

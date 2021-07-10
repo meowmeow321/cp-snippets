@@ -1,0 +1,29 @@
+<snippet>
+	<content><![CDATA[
+struct union_find{
+	int par[maxn];
+	int sz[maxn];
+	void make(int v) {
+		par[v] = v;
+		sz[v] = 1;
+	}
+	int find(int v) {
+		if(v == par[v]) return v;
+		return par[v] = find(par[v]);
+	}
+	bool unite(int a, int b) {
+		a = find(a);
+		b = find(b);
+		if(a == b) return 0;
+		if(sz[a] < sz[b]) swap(a, b);
+		par[b] = a;
+		sz[a] += sz[b];
+		return 1;
+	}
+}dsu;
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>UNION_FIND</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,33 @@
+<snippet>
+	<content><![CDATA[
+const int max_logn = 20;
+template<typename T>
+struct SparseTable{
+	int log[maxn];
+	T dp[max_logn][maxn];
+	int log(int x) {
+		return 31 - __builtin_clz(x); 
+	}
+	T combine(T a, T b) {
+		return min(a, b);
+	}
+	void build(vector<T> b) {
+		int n = sz(b);
+		for (int i = 0; i < n; ++i){
+			dp[0][i] = b[i];
+		}
+		for (int j = 1; j < max_logn; j++)
+			for (int i = 0; i + (1 << j) < maxn; i++)
+				dp[j][i] = combine(dp[j - 1][i], dp[j - 1][i + (1 << (j - 1))]);
+	}
+	T query(int l,int r) {
+		int j = log(r - l + 1);
+		return combine(dp[j][l], dp[j][r - (1 << j) + 1]);
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>SPARSE_TABLE</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

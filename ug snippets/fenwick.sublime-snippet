@@ -1,0 +1,28 @@
+<snippet>
+	<content><![CDATA[
+#define LSB(i) ((i) & -(i))
+const int maxn=${1:N};
+struct fenwick{
+	int A[maxn];
+	int query(int i){
+		int sum = 0;
+		while (i > 0) 
+			sum += A[i], i -= LSB(i);
+		return sum;
+	}
+	void update(int i, int k){
+		if(i<1)return;
+		while (i < maxn) 
+			A[i] += k, i += LSB(i);
+	}
+	void rupd(int l,int r,int v){
+		update(l,v);
+		update(r+1,-v);
+	}
+}fenw;
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>fenwick</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

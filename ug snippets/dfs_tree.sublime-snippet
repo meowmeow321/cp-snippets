@@ -1,0 +1,16 @@
+<snippet>
+<content><![CDATA[
+vector<int> v[${1:N}];
+void dfs(int z,int p){
+	for(int x:v[z]){
+		if(x==p)continue;
+		dfs(x,z);
+	}
+}
+]]></content>
+<tabTrigger>dfs_tree</tabTrigger>
+<description>
+	dfs visit
+</description>
+<scope>source.c++</scope>
+</snippet>
